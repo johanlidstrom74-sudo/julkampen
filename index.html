@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Julkampen</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#b30000" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <div class="logo">🎄</div>
+        <div>
+          <div class="title">Julkampen</div>
+          <div class="subtitle">Julquiz i realtid • max 18 spelare</div>
+        </div>
+      </div>
+      <div class="pill" id="connPill">Offline</div>
+    </header>
+
+    <main class="card">
+      <nav class="tabs">
+        <button class="tab active" data-view="join">Spelare</button>
+        <button class="tab" data-view="admin">Admin</button>
+      </nav>
+
+      <section id="view-join" class="view">
+        <h2>Gå med</h2>
+        <label>Kod</label>
+        <input id="joinCode" placeholder="t.ex. A7K9Q" autocomplete="off" />
+        <label>Namn</label>
+        <input id="joinName" placeholder="Ditt namn" autocomplete="name" />
+        <button id="joinBtn" class="primary">Gå med</button>
+
+        <div class="hint">
+          Tips: När du är inne kan du installera appen på mobilen (PWA).
+        </div>
+
+        <div id="joinStatus" class="status"></div>
+
+        <div class="divider"></div>
+
+        <div id="playerArea" class="hidden">
+          <h3>Lobby</h3>
+          <div class="row">
+            <div><strong>Kod:</strong> <span id="lobbyCode"></span></div>
+            <div><strong>Spelare:</strong> <span id="lobbyCount"></span>/18</div>
+          </div>
+
+          <h3>Fråga</h3>
+          <div id="questionBox" class="question hidden">
+            <div class="qhead">
+              <div id="qNumber" class="qnum"></div>
+              <div id="qText" class="qtext"></div>
+            </div>
+            <div id="options" class="options"></div>
+            <div id="answerStatus" class="status"></div>
+          </div>
+
+          <div id="waitingBox" class="status">Väntar på att admin startar…</div>
+
+          <h3>Leaderboard</h3>
+          <div id="leaderboard" class="board"></div>
+        </div>
+      </section>
+
+      <section id="view-admin" class="view hidden">
+        <h2>Admin</h2>
+
+        <label>Backend-URL</label>
+        <input id="backendUrl" placeholder="t.ex. https://din-backend.onrender.com" />
+
+        <label>Admin-PIN</label>
+        <input id="adminPin" placeholder="t.ex. 1234" inputmode="numeric" />
+
+        <div class="hint">
+          PIN används för att starta/avsluta och visa resultat. Om du lämnar tomt när du skapar lobby genereras en PIN automatiskt.
+        </div>
+
+        <label>Svårighetsgrad</label>
+        <select id="difficulty">
+          <option value="mix" selected>Mix (Lätt + Medel + Svår)</option>
+          <option value="easy">Lätt</option>
+          <option value="medium">Medel</option>
+          <option value="hard">Svår</option>
+        </select>
+
+        <label>Antal frågor</label>
+        <input id="questionCount" type="number" min="5" max="30" value="10" />
+
+        <div class="row">
+          <button id="connectBtn">Anslut</button>
+          <button id="createGameBtn" class="primary">Skapa lobby</button>
+        </div>
+
+        <div id="adminStatus" class="status"></div>
+
+        <div id="adminArea" class="hidden">
+          <div class="row">
+            <div><strong>Kod:</strong> <span id="adminCode"></span></div>
+            <button id="copyJoinLinkBtn">Kopiera join-länk</button>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button id="startBtn" class="primary">Starta quiz</button>
+            <button id="revealBtn">Visa resultat (fråga)</button>
+            <button id="nextBtn">Nästa fråga</button>
+            <button id="endBtn" class="danger">Avsluta</button>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3>Resultat (aktuella frågan)</h3>
+          <div id="adminResults" class="status">Tryck “Visa resultat (fråga)” för att se hur alla svarade.</div>
+
+          <div class="divider"></div>
+
+          <h3>Leaderboard</h3>
+          <div id="adminBoard" class="board"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">Skapad för julquiz 🎁</footer>
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
